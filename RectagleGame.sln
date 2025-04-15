@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2050
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RectagleGame", "RectagleGame\RectagleGame.csproj", "{00B7F82C-8B54-46A5-9C6D-94AE5CFC81C5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RectsgleGameTests", "RectsgleGameTests\RectsgleGameTests.csproj", "{B754D8BE-1335-4912-BC7E-DFBC60CF5174}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{00B7F82C-8B54-46A5-9C6D-94AE5CFC81C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00B7F82C-8B54-46A5-9C6D-94AE5CFC81C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00B7F82C-8B54-46A5-9C6D-94AE5CFC81C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00B7F82C-8B54-46A5-9C6D-94AE5CFC81C5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B754D8BE-1335-4912-BC7E-DFBC60CF5174}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B754D8BE-1335-4912-BC7E-DFBC60CF5174}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B754D8BE-1335-4912-BC7E-DFBC60CF5174}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B754D8BE-1335-4912-BC7E-DFBC60CF5174}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF0ECC3C-E857-4F77-B161-B9923A8B73BE}
+	EndGlobalSection
+EndGlobal
