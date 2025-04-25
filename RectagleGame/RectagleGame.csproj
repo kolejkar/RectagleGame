@@ -72,6 +72,7 @@
     <Compile Include="Objects\Monster.cs" />
     <Compile Include="Objects\Objekt.cs" />
     <Compile Include="Objects\Paper.cs" />
+    <Compile Include="Objects\Trap.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Room.cs" />
