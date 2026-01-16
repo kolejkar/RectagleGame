@@ -57,6 +57,10 @@ namespace RectagleGame.Objects
             {
                 MessageKey();
             }
+            else
+            {
+                Open();
+            }
         }
 
         public void Open()
@@ -66,7 +70,7 @@ namespace RectagleGame.Objects
 
         public void Paint()
         {
-            if (left > -1 && top > -1)
+            if (UI.InScreen(top, left))
             {
                 if (opened)
                 {
@@ -76,8 +80,13 @@ namespace RectagleGame.Objects
                 }
                 else
                 {
+                    if (GetKey() > 0)
+                    {
+                        System.Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    }
                     Console.SetCursorPosition(left, top);
                     Console.Out.Write("#");
+                    System.Console.ResetColor();
                 }
             }
         }

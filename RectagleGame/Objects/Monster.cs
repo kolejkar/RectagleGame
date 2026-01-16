@@ -10,14 +10,14 @@ namespace RectagleGame.Objects
     {
         public void Paint()
         {
-            if (left > -1 && top > -1)
+            if (UI.InScreen(top, left))
             {
                 Console.SetCursorPosition(left, top);
                 Console.Out.Write("$");
             }
         }
 
-        public int Helth = 2;
+        public int Health = 2;
 
         //private Hero bohater;
 
@@ -39,7 +39,7 @@ namespace RectagleGame.Objects
         {
             if (HasCollision(hero) && !is_attak)
             {
-                hero.Helth--;
+                hero.Health--;
                 is_attak = true;
             }
         }

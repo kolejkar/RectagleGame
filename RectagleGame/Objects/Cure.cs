@@ -32,7 +32,7 @@ namespace RectagleGame.Objects
 
         public void Art(Hero hero)
         {
-            hero.Helth = hero.Helth + PointsHealth;
+            hero.Health = hero.Health + PointsHealth;
         }
     }
 }

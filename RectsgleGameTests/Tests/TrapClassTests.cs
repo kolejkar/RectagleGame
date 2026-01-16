@@ -55,7 +55,7 @@ namespace RectsgleGameTests.Tests
         {
             //Arrage
             Hero hero = new Hero();
-            hero.Helth = 10;
+            hero.Health = 10;
             hero.top = 5;
             hero.left = 5;
             Trap trap = new Trap();
@@ -64,7 +64,7 @@ namespace RectsgleGameTests.Tests
             //Act
             trap.HitHero(hero);
             //Assert
-            Assert.Equal(9, hero.Helth);
+            Assert.Equal(9, hero.Health);
         }
     }
 }

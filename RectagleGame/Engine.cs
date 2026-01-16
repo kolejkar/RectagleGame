@@ -10,15 +10,19 @@ namespace RectagleGame
     public class Engine
     {
         private char znak;
-        private Hero bohater;
-        private IList<Room> pokoje;
-        //private int rooms;
-        private IList<Door> dzwi;
-        private bool move;
+        public Hero bohater;
+        public IList<Room> pokoje;
+        public IList<Door> dzwi;
         private Random rand;
-        //private IList<Paper> messages;
-        //private int msgs;
-        //private IList<Monster> monsters;
+
+        public Engine()
+        {
+            znak = new char();
+            bohater = new Hero();
+            rand = new Random();
+            pokoje = new List<Room>();
+            dzwi = new List<Door>();
+        }
 
         private void Rysuj()
         {
@@ -62,13 +66,20 @@ namespace RectagleGame
                 }
                 foreach (Room room in pokoje.Where(p => p.paper != null))
                 {
-                    if (pokoje[i].InRoom(room.paper.left,room.paper.top) && pokoje[i].IsVisible())
+                    if (pokoje[i].InRoom(room.paper.left, room.paper.top) && pokoje[i].IsVisible())
+                    {
                         room.paper.Paint();
+                    }
                 }
                 foreach (Room room in pokoje.Where(p => p.cure != null))
                 {
                     if (pokoje[i].InRoom(room.cure.left, room.cure.top) && pokoje[i].IsVisible())
                         room.cure.Paint();
+                }
+                foreach (Room room in pokoje.Where(p => p.trap != null))
+                {
+                    if (pokoje[i].InRoom(room.trap.left, room.trap.top) && pokoje[i].IsVisible())
+                        room.trap.Paint();
                 }
                 foreach (Room room in pokoje.Where(p => p.monster != null))
                 {
@@ -94,16 +105,6 @@ namespace RectagleGame
             return cure;
         }
 
-        private Paper AddMessage()
-        {
-            Paper msg = new Paper();
-            msg = new Paper();
-            msg.SetMessage(String.Format("Key for door: {0}", dzwi[dzwi.Count - 1].GetKey()));
-            msg.left = pokoje[pokoje.Count - 1].left + rand.Next(1, pokoje[pokoje.Count - 1].width - 1);
-            msg.top = pokoje[pokoje.Count - 1].top + rand.Next(1, pokoje[pokoje.Count - 1].height - 1);
-            return msg;
-        }
-
         private Monster AddMonster()
         {
             Monster monster = new Monster();
@@ -119,10 +120,6 @@ namespace RectagleGame
             {
                 Room pokoj = new Room(rand);
                 dzwi.Add(pokoj.Init(pokoje[pokoje.Count-1]));
-                if (dzwi[dzwi.Count-1].GetKey()!=0)
-                {
-                    pokoj.paper = AddMessage();
-                }
                 if (rand.Next(0, 100) > 0.5)
                 {                 
                     pokoj.monster = AddMonster();
@@ -136,187 +133,50 @@ namespace RectagleGame
             }
         }
 
-        public void Run()
+        private void InitGame()
         {
-            znak = new char();
-            bohater = new Hero();
-            rand = new Random();
-            pokoje = new List<Room>();
-            dzwi = new List<Door>();
-            //messages = new List<Paper>();
-            //monsters = new List<Monster>();
-            //msgs = 0;
             Room pokoj = new Room(rand);
-            pokoj.top = 25;
-            pokoj.left = 25;
+            pokoj.top = 5;
+            pokoj.left = 5;
             pokoje.Add(pokoj);
             bohater.top = pokoje[0].top + pokoje[0].height - 1;
             bohater.left = pokoje[0].left + pokoje[0].width - 1;
-            //rooms = 1;
-            while (znak != 27 && bohater.Helth>0)
+        }
+
+        public void Run()
+        {
+            InitGame();
+            while (znak != 27 && bohater.Health > 0)
             {
                 GenerujPokuj();
                 Rysuj();
                 znak = Console.ReadKey().KeyChar;
-                move = false;
                 if (znak == 'w')
                 {
-                    for (int i = 0; i < pokoje.Count; i++)
+                    if (CheckMove(-1, 0))
                     {
-                        if (pokoje[i].InRoom(bohater.left, bohater.top - 1))
-                        {
-                            move = true;
-                        }
-                    }
-                    for (int i = 0; i < dzwi.Count; i++)
-                    {
-                        if (dzwi[i].left == bohater.left && dzwi[i].top == bohater.top - 1 && dzwi[i].IsOpen())
-                        {
-                            move = true;
-                        }
-                    }
-                    if (move)
-                    {
-                        foreach (Room pok in pokoje)
-                        {
-                            pok.top++;
-                            if (pok.monster != null)
-                            {
-                                pok.monster.top++;
-                            }
-                            if (pok.paper != null)
-                            {
-                                pok.paper.top++;
-                            }
-                            if (pok.cure != null)
-                            {
-                                pok.cure.top++;
-                            }
-                        }
-                        foreach (Door door in dzwi)
-                        {
-                            door.top++;
-                        }
+                        MoveUp();
                     }
                 }
                 if (znak == 's')
                 {
-                    for (int i = 0; i < pokoje.Count; i++)
+                    if (CheckMove(1, 0))
                     {
-                        if (pokoje[i].InRoom(bohater.left, bohater.top + 1))
-                        {
-                            move = true;
-                        }
-                    }
-                    for (int i = 0; i < dzwi.Count; i++)
-                    {
-                        if (dzwi[i].left == bohater.left && dzwi[i].top == bohater.top + 1 && dzwi[i].IsOpen())
-                        {
-                            move = true;
-                        }
-                    }
-                    if (move)
-                    {
-                        foreach (Room pok in pokoje)
-                        {
-                            pok.top--;
-                            if (pok.monster != null)
-                            {
-                                pok.monster.top--;
-                            }
-                            if (pok.paper != null)
-                            {
-                                pok.paper.top--;
-                            }
-                            if (pok.cure != null)
-                            {
-                                pok.cure.top--;
-                            }
-                        }
-                        foreach (Door door in dzwi)
-                        {
-                            door.top--;
-                        }
+                        MoveDown();
                     }
                 }
                 if (znak == 'a')
                 {
-                    for (int i = 0; i < pokoje.Count; i++)
+                    if (CheckMove(0, -1))
                     {
-                        if (pokoje[i].InRoom(bohater.left - 1, bohater.top))
-                        {
-                            move = true;
-                        }
-                    }
-                    for (int i = 0; i < dzwi.Count; i++)
-                    {
-                        if (dzwi[i].left == bohater.left - 1 && dzwi[i].top == bohater.top && dzwi[i].IsOpen())
-                        {
-                            move = true;
-                        }
-                    }
-                    if (move)
-                    {
-                        foreach (Room pok in pokoje)
-                        {
-                            pok.left++;
-                            if (pok.monster != null)
-                            {
-                                pok.monster.left++;
-                            }
-                            if (pok.paper != null)
-                            {
-                                pok.paper.left++;
-                            }
-                            if (pok.cure != null)
-                            {
-                                pok.cure.left++;
-                            }
-                        }
-                        foreach (Door door in dzwi)
-                        {
-                            door.left++;
-                        }
+                        MoveLeft();
                     }
                 }
                 if (znak == 'd')
                 {
-                    for (int i = 0; i < pokoje.Count; i++)
+                    if (CheckMove(0, 1))
                     {
-                        if (pokoje[i].InRoom(bohater.left + 1, bohater.top))
-                        {
-                            move = true;
-                        }
-                    }
-                    for (int i = 0; i < dzwi.Count; i++)
-                    {
-                        if (dzwi[i].left == bohater.left + 1 && dzwi[i].top == bohater.top && dzwi[i].IsOpen())
-                        {
-                            move = true;
-                        }
-                    }
-                    if (move)
-                    {
-                        foreach (Room pok in pokoje)
-                        {
-                            pok.left--;
-                            if (pok.monster != null)
-                            {
-                                pok.monster.left--;
-                            }
-                            if (pok.paper != null)
-                            {
-                                pok.paper.left--;
-                            }
-                            if (pok.cure != null)
-                            {
-                                pok.cure.left--;
-                            }
-                        }
-                        foreach (Door door in dzwi)
-                        {
-                            door.left--;
-                        }
+                        MoveRight();
                     }
                 }
                 if (znak == ' ')
@@ -333,9 +193,172 @@ namespace RectagleGame
                         room.monster.Move(rand, bohater, dzwi);
                     }
                 }
+                UseTrap();
             }
-            if (bohater.Helth <= 0)
+            if (bohater.Health <= 0)
                 GameOver();
+        }
+
+        public bool CheckMove(int top, int left)
+        {
+            for (int i = 0; i < pokoje.Count; i++)
+            {
+                if (pokoje[i].InRoom(bohater.left + left, bohater.top + top))
+                {
+                    return true;
+                }
+            }
+            for (int i = 0; i < dzwi.Count; i++)
+            {
+                if (dzwi[i].left == bohater.left + left && dzwi[i].top == bohater.top + top && dzwi[i].IsOpen())
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private void MoveRight()
+        {
+            foreach (Room pok in pokoje)
+            {
+                pok.left--;
+                if (pok.monster != null)
+                {
+                    pok.monster.left--;
+                }
+                if (pok.paper != null)
+                {
+                    pok.paper.left--;
+                    if (pok.paper.IsTrapped())
+                    {
+                        pok.paper.trap.left--;
+                    }
+                }
+                if (pok.cure != null)
+                {
+                    pok.cure.left--;
+                }
+                if (pok.trap != null)
+                {
+                    pok.trap.left--;
+                }
+            }
+            foreach (Door door in dzwi)
+            {
+                door.left--;
+            }
+        }
+
+        private void MoveLeft()
+        {
+            foreach (Room pok in pokoje)
+            {
+                pok.left++;
+                if (pok.monster != null)
+                {
+                    pok.monster.left++;
+                }
+                if (pok.paper != null)
+                {
+                    pok.paper.left++;
+                    if (pok.paper.IsTrapped())
+                    {
+                        pok.paper.trap.left++;
+                    }
+                }
+                if (pok.cure != null)
+                {
+                    pok.cure.left++;
+                }
+                if (pok.trap != null)
+                {
+                    pok.trap.left++;
+                }
+            }
+            foreach (Door door in dzwi)
+            {
+                door.left++;
+            }
+        }
+
+        private void MoveDown()
+        {
+            foreach (Room pok in pokoje)
+            {
+                pok.top--;
+                if (pok.monster != null)
+                {
+                    pok.monster.top--;
+                }
+                if (pok.paper != null)
+                {
+                    pok.paper.top--;
+                    if (pok.paper.IsTrapped())
+                    {
+                        pok.paper.trap.top--;
+                    }
+                }
+                if (pok.cure != null)
+                {
+                    pok.cure.top--;
+                }
+                if (pok.trap != null)
+                {
+                    pok.trap.top--;
+                }
+            }
+            foreach (Door door in dzwi)
+            {
+                door.top--;
+            }
+        }
+
+        private void MoveUp()
+        {
+            foreach (Room pok in pokoje)
+            {
+                pok.top++;
+                if (pok.monster != null)
+                {
+                    pok.monster.top++;
+                }
+                if (pok.paper != null)
+                {
+                    pok.paper.top++;
+                    if (pok.paper.IsTrapped())
+                    {
+                        pok.paper.trap.top++;
+                    }
+                }
+                if (pok.cure != null)
+                {
+                    pok.cure.top++;
+                }
+                if (pok.trap != null)
+                {
+                    pok.trap.top++;
+                }
+            }
+            foreach (Door door in dzwi)
+            {
+                door.top++;
+            }
+        }
+
+        private void UseTrap()
+        {
+            foreach (Room room in pokoje.Where(p => p.trap != null))
+            {
+                room.trap.HitHero(bohater);
+            }
+            foreach (Room room in pokoje.Where(p => p.paper != null))
+            {
+                if (room.paper.IsTrapped())
+                {
+                    room.paper.trap.HitHero(bohater);
+                }
+            }
         }
 
         private void DrinkCure()
@@ -373,7 +396,7 @@ namespace RectagleGame
             }
                 if (bohater.HasCollision(dzwi[i]))
                 {
-                    dzwi[i].Open();
+                    dzwi[i].OpenWithKey();
                 }
             }
         }
@@ -384,9 +407,9 @@ namespace RectagleGame
             {
                 if (bohater.HasCollision(room.monster))
                 {
-                    room.monster.Helth--;
+                    room.monster.Health--;
                 }
-                if (room.monster.Helth <= 0)
+                if (room.monster.Health <= 0)
                 {
                     room.monster = null;
                     bohater.Points++;

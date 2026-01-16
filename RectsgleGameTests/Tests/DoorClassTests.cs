@@ -48,5 +48,16 @@ namespace RectsgleGameTests.Tests
             //Assert
             Assert.Equal(validate, result);
         }
+
+        [Fact]
+        public void CreateCloseDoor()
+        {
+            //Arrage
+
+            //Act
+            Door door = new Door();
+            //Assert
+            Assert.False(door.IsOpen());
+        }
     }
 }

@@ -29,5 +29,14 @@ namespace RectagleGame
                 znak = Console.ReadKey().KeyChar;
             }
         }
+
+        public static bool InScreen(int top, int left)
+        {
+            if (left > -1 && top > -1 && left < Console.WindowWidth && top < Console.WindowHeight)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

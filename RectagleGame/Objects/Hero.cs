@@ -12,9 +12,9 @@ namespace RectagleGame.Objects
         {
             Console.SetCursorPosition(left, top);
             Console.Out.Write("H");
-            Console.SetCursorPosition(0, top + 10);
-            Console.Out.Write(String.Format("Helth: {0}",Helth));
-            Console.SetCursorPosition(0, top + 11);
+            Console.SetCursorPosition(0, 28);
+            Console.Out.Write(String.Format("Health: {0}",Health));
+            Console.SetCursorPosition(0, 29);
             Console.Out.Write(String.Format("Points: {0}", Points));
         }
 
@@ -23,7 +23,7 @@ namespace RectagleGame.Objects
 
         }
 
-        public int Helth = 20;
+        public int Health = 20;
 
         public int Points = 0;
     }

@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Objects\BasicRoom.cs" />
     <Compile Include="Objects\ICanvas.cs" />
     <Compile Include="Objects\Cure.cs" />
     <Compile Include="Objects\Door.cs" />

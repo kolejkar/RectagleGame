@@ -23,17 +23,17 @@ namespace RectsgleGameTests.Tests
         [InlineData(10, 5, 15)]
         [InlineData(20, 2, 22)]
         [InlineData(1, 5, 6)]
-        public void ShouldAddPointsToHero(int helthHero, int curePoints, int resultHero)
+        public void ShouldAddPointsToHero(int healthHero, int curePoints, int resultHero)
         {
             //Arrage
             Cure cure = new Cure();
             cure.SetPoints(curePoints);
             Hero hero = new Hero();
-            hero.Helth = helthHero;
+            hero.Health = healthHero;
             //Act
             cure.Art(hero);
             //Assert
-            Assert.Equal(resultHero, hero.Helth);
+            Assert.Equal(resultHero, hero.Health);
         }
     }
 }

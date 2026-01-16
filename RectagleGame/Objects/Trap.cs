@@ -17,13 +17,16 @@ namespace RectagleGame.Objects
 
         public void Paint()
         {
-            System.Console.SetCursorPosition(left, top);
-            if (activeted == true)
+            if (UI.InScreen(top, left))
             {
-                System.Console.ForegroundColor = ConsoleColor.DarkRed;
+                System.Console.SetCursorPosition(left, top);
+                if (activeted == true)
+                {
+                    System.Console.ForegroundColor = ConsoleColor.DarkRed;
+                }
+                System.Console.Write("T");
+                System.Console.ResetColor();
             }
-            System.Console.Write("T");
-            System.Console.ResetColor();
         }
 
         public bool IsUsed()
@@ -35,7 +38,7 @@ namespace RectagleGame.Objects
         {
             if (left == hero.left && top == hero.top && activeted)
             {
-                hero.Helth--;
+                hero.Health--;
                 activeted = false;
             }
         }
