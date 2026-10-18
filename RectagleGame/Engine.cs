@@ -108,8 +108,13 @@ namespace RectagleGame
         private Monster AddMonster()
         {
             Monster monster = new Monster();
-            monster.left = pokoje[pokoje.Count - 1].left + rand.Next(1, pokoje[pokoje.Count - 1].width - 1);
-            monster.top = pokoje[pokoje.Count - 1].top + rand.Next(1, pokoje[pokoje.Count - 1].height - 1);
+            Room room = pokoje[pokoje.Count - 1];
+            int centerX = room.left + (room.width / 2);
+            int centerY = room.top + (room.height / 2);
+
+            monster.left = centerX + rand.Next(-2, 3);
+            monster.top = centerY + rand.Next(-2, 3);
+
             monster.SetRooms(pokoje);
             return monster;
         }
@@ -124,7 +129,7 @@ namespace RectagleGame
                 {                 
                     pokoj.monster = AddMonster();
                 }
-                if (pokoj.width > 10 || pokoj.height > 10)
+                if ((pokoj.width > 10 || pokoj.height > 10) && bohater.Health <= 10)
                 {                   
                     pokoj.cure = AddCure();
                 }

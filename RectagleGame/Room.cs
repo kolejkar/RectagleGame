@@ -65,7 +65,11 @@ namespace RectagleGame
         {
             Paper msg = new Paper();
             msg.SetMessage(String.Format("Key for door: {0}", drzwi.GetKey()));
-            BasicRoom room = parent.parent.parent;
+            BasicRoom room = parent;
+            if (parent.HasParent())
+            {
+                room = parent.parent;
+            }
             msg.left = room.left + rand.Next(1, room.width - 1);
             msg.top = room.top + rand.Next(1, room.height - 1);
             msg.SetTrap(room);

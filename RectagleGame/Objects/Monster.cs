@@ -56,24 +56,30 @@ namespace RectagleGame.Objects
             if (temp_left * temp_left + temp_top * temp_top < radianus * radianus
                 && temp_left * temp_left + temp_top * temp_top > 1)
             {
-                double wx = hero.left - left; //oblicz wektor między zombiakiem a graczem
-                double wy = hero.top - top;
-                double length = Math.Sqrt(wx * wx + wy * wy); //oblicz długość wektora
-                wx = wx / length; //podziel wektor przez długość
-                wy = wy / length;
-                int new_monster_top = top + Convert.ToInt32(wy);
-                int new_monser_left= left + Convert.ToInt32(wx);
+                int new_monster_top = top;
+                int new_monster_left = left;
+
+                if (Math.Abs(hero.left - left) > Math.Abs(hero.top - top))
+                {
+                    if (hero.left > left) new_monster_left++;
+                    else if (hero.left < left) new_monster_left--;
+                }
+                else
+                {
+                    if (hero.top > top) new_monster_top++;
+                    else if (hero.top < top) new_monster_top--;
+                }
                 bool move = false;
                 for (int i = 0; i < pokoje.Count; i++)
                 {
-                    if (pokoje[i].InRoom(new_monser_left, new_monster_top))
+                    if (pokoje[i].InRoom(new_monster_left, new_monster_top))
                     {
                         move = true;
                     }
                 }
                 for (int i = 0; i < dzwi.Count; i++)
                 {
-                    if (dzwi[i].left == new_monser_left && dzwi[i].top == new_monster_top && dzwi[i].IsOpen())
+                    if (dzwi[i].left == new_monster_left && dzwi[i].top == new_monster_top && dzwi[i].IsOpen())
                     {
                         move = true;
                     }
@@ -81,7 +87,7 @@ namespace RectagleGame.Objects
                 if (move && !is_moved)
                 {
                     top = new_monster_top;  //zaokrąglij do jednośći i przemieść zombiaka
-                    left = new_monser_left;
+                    left = new_monster_left;
                     is_moved = true;
                 }
                 else
